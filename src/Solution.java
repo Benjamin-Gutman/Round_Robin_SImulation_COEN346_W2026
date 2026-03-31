@@ -167,6 +167,14 @@ public class Solution {
             for (int t = 0; t < execTime; t++) {
 
                 currentTime++;
+                
+             // Update waiting time
+                // ONLY count if process has already started (important fix)
+                for (Process other : readyQueue) {
+                	if (other != p && other.remainingTime > 0) {
+                        other.waitingTime++;
+                    }
+                }
 
                 // Add new arrivals DURING execution
                 for (Process newP : processes) {
@@ -175,13 +183,7 @@ public class Solution {
                     }
                 }
 
-                // Update waiting time
-                // ONLY count if process has already started (important fix)
-                for (Process other : readyQueue) {
-                    if (other != p && other.remainingTime > 0 && other.started) {
-                        other.waitingTime++;
-                    }
-                }
+                
             }
 
             // Decrease remaining time
