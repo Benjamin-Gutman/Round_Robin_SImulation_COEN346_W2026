@@ -10,11 +10,11 @@ Time 4, Process 1, Resumed
 Time 5, Process 1, Paused
 Time 5, Process 1, Resumed
 Time 6, Process 1, Paused
-Time 6, Process 1, Resumed
-Time 7, Process 1, Finished
-Time 7, Process 2, Started
-Time 7, Process 2, Resumed
-Time 8, Process 2, Paused
+Time 6, Process 2, Started
+Time 6, Process 2, Resumed
+Time 7, Process 2, Paused
+Time 7, Process 1, Resumed
+Time 8, Process 1, Finished
 Time 8, Process 2, Resumed
 Time 9, Process 2, Paused
 Time 9, Process 2, Resumed
@@ -29,6 +29,6 @@ Time 13, Process 2, Resumed
 Time 14, Process 2, Finished
 -------------------------
 Waiting Times:
-Process 1: 1
+Process 1: 2
 Process 2: 6
 Process 3: 0

@@ -14,6 +14,7 @@ class Process extends Thread {
     int remainingTime;
 
     int waitingTime = 0;
+    int starvationTime = 0;
     boolean started = false;
 
     // Used to control execution
@@ -135,7 +136,28 @@ public class Solution {
                 continue;
             }
 
-            Process p = readyQueue.get(0);
+            Process p = null;
+
+            // 1. Check for starving process
+            for (Process candidate : readyQueue) {
+            	if (candidate.remainingTime > 0 && candidate.starvationTime >= 5) {
+            		if (p == null || candidate.arrivalTime < p.arrivalTime) {	
+            			p = candidate; // pick oldest starving process
+            		}
+            	}
+            }
+
+            // 2. If no starving process → use SRTF
+            if (p == null) {
+        	 	readyQueue.sort((a, b) -> {
+                 	if (a.remainingTime != b.remainingTime)
+                     	return a.remainingTime - b.remainingTime;
+                 	return a.arrivalTime - b.arrivalTime;
+             	});
+
+             	p = readyQueue.get(0);
+         	}
+            p.starvationTime = 0;
 
             // Quantum = 10% of remaining time (minimum 1)
             int quantum = Math.max(1, p.remainingTime / 10);
@@ -173,6 +195,7 @@ public class Solution {
                 for (Process other : readyQueue) {
                 	if (other != p && other.remainingTime > 0) {
                         other.waitingTime++;
+                        other.starvationTime++;
                     }
                 }
 
